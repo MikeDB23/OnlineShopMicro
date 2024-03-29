@@ -40,7 +40,7 @@ public class Order {
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timeOfOrder;
-    private String status; //Esto podria ser una numeracion?
+    private Status status;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true)
     private List<OrderItem> orderItems;

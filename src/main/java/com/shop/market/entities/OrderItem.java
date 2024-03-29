@@ -34,8 +34,8 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    private Product productId;
+    private Product product;
     
     private Integer amount;
-    private Double pricePerUnit; //Esta en el documento, supongo que en caso de que compres algo con descuento
+    private Double pricePerUnit;
 }

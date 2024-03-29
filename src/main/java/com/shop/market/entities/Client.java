@@ -31,7 +31,7 @@ public class Client {
 
     private String name;
     private String email;
-    private String addres;
+    private String address;
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)
     private List<Order> orders;

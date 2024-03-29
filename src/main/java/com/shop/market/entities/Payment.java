@@ -39,5 +39,5 @@ public class Payment {
     private Double totalPayment;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timeOfPayment;
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
 }

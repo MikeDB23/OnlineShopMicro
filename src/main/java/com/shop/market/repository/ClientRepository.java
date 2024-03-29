@@ -8,6 +8,6 @@ import com.shop.market.entities.Client;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
     List<Client> findByEmail(String email);
-    List<Client> findByAdress(String adress);
+    List<Client> findByAddress(String address);
     List<Client> findByNameStartingWith(String name);
 }

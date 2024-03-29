@@ -33,6 +33,6 @@ public class Delivery {
     private Order order;
 
     private String adress;
-    private String Company;
+    private String company;
     private Integer waybillNumber;
 }
