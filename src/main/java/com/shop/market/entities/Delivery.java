@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "deliveries")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +32,7 @@ public class Delivery {
     @JoinColumn(name = "orderId")
     private Order order;
 
-    private String adress;
+    private String address;
     private String company;
     private Integer waybillNumber;
 }

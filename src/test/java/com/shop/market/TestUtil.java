@@ -3,8 +3,10 @@ package com.shop.market;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.shop.market.entities.Client;
+import com.shop.market.entities.Delivery;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
 import com.shop.market.entities.Payment;
@@ -238,5 +240,35 @@ public class TestUtil {
                         .build()
         );
         return payments;
+    }
+
+    public static List<Delivery> genDeliveries(List<Order> orders){
+        List<Delivery> deliveries = new ArrayList<>();
+        
+        String[] companies = {"Coordinadora", "Interrapidisimo", "Envia", "Servientrega"};
+        Random random = new Random();
+        Integer companyIndex;
+        Integer waybillNumberAcc = 100000;
+        for(int i=0;i<orders.size()-1;i++){
+            companyIndex = random.nextInt(companies.length);
+            deliveries.add(Delivery.builder()
+                            .order(orders.get(i))
+                            .address(orders.get(i).getClient().getAddress())
+                            .company(companies[companyIndex])
+                            .waybillNumber(waybillNumberAcc)
+                            .build()
+            );
+            waybillNumberAcc++;
+        }
+        
+        deliveries.add(Delivery.builder()
+                            .order(orders.get(orders.size()-1))
+                            .address(orders.get(orders.size()-1).getClient().getAddress())
+                            .company(companies[0])
+                            .waybillNumber(waybillNumberAcc+1)
+                            .build()
+            );
+            
+        return deliveries;
     }
 }

@@ -13,6 +13,6 @@ import com.shop.market.entities.Status;
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     List<Delivery> findByOrder(Order order);
     List<Delivery> findByCompany(String company);
-    @Query("SELECT d FROM Delivery d WHERE d.order.status =: s ")
+    @Query("SELECT d FROM Delivery d WHERE d.order.status = :s ")
     List<Delivery> findByStatus(@Param("s") Status status);
 }
