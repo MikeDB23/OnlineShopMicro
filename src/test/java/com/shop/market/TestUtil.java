@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.shop.market.Utils.PaymentMethod;
+import com.shop.market.Utils.Status;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Delivery;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
 import com.shop.market.entities.Payment;
-import com.shop.market.entities.PaymentMethod;
 import com.shop.market.entities.Product;
-import com.shop.market.entities.Status;
 
 
 public class TestUtil {

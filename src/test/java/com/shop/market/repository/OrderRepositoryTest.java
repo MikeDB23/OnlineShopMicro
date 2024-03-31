@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shop.market.AbstractsIntegrationDBTest;
 import com.shop.market.TestUtil;
+import com.shop.market.Utils.Status;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
-import com.shop.market.entities.Status;
 
 public class OrderRepositoryTest extends AbstractsIntegrationDBTest{
     ClientRepository clientRepository;
@@ -118,7 +118,7 @@ public class OrderRepositoryTest extends AbstractsIntegrationDBTest{
     @Test
     void givenAClientAndStatus_whenFindByClientAndStatus_thenGetOrdersFromClientWithTheStatusProvided(){
         initOrderTest();
-        List<Order> orders = orderRepository.findByClientAndStatus(clientRepository.findAll().get(0), Status.PENDING);
+        List<Order> orders = orderRepository.findByClientIdAndStatus(clientRepository.findAll().get(0).getId(), Status.PENDING);
         assertThat(orders).hasSize(2);
     }
 
@@ -127,7 +127,7 @@ public class OrderRepositoryTest extends AbstractsIntegrationDBTest{
         initOrderTest();
         productRepository.saveAll(TestUtil.genProduct());
         orderItemRepository.saveAll(TestUtil.genOrderItems(orderRepository.findAll(), productRepository.findAll()));
-        List<OrderItem> items = orderRepository.findByItemsPerOrder(clientRepository.findAll().get(0));
+        List<OrderItem> items = orderRepository.findByItemsPerOrder(clientRepository.findAll().get(0).getId());
         System.out.println(items.get(0));
         assertThat(items).isNotEmpty();
         assertThat(items).hasSize(5);

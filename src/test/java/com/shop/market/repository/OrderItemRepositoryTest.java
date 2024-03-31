@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shop.market.AbstractsIntegrationDBTest;
 import com.shop.market.TestUtil;
+import com.shop.market.Utils.PaymentMethod;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
 import com.shop.market.entities.Payment;
-import com.shop.market.entities.PaymentMethod;
 import com.shop.market.entities.Product;
 
 public class OrderItemRepositoryTest extends AbstractsIntegrationDBTest{
@@ -126,7 +126,7 @@ public class OrderItemRepositoryTest extends AbstractsIntegrationDBTest{
     @Test
     void givenAProduct_whenFindByProduct_thenGetOrderItemsWithProduct(){
         initOrderItemTest();
-        List<OrderItem> orderItems = orderItemRepository.findByProduct(productRepository.findAll().get(1));
+        List<OrderItem> orderItems = orderItemRepository.findByProductId(productRepository.findAll().get(1).getId());
         assertThat(orderItems).isNotEmpty();
         assertThat(orderItems).hasSize(2);
     }
@@ -135,7 +135,7 @@ public class OrderItemRepositoryTest extends AbstractsIntegrationDBTest{
     void givenAProduct_whenGetProductSales_thenSumProductSales(){
         initOrderItemTest();
         Product product = productRepository.findAll().get(0);
-        Double sales = orderItemRepository.getProductSales(product);
+        Double sales = orderItemRepository.getProductSales(product.getId());
         assertEquals(140*product.getPrice(),sales);
     }
 }

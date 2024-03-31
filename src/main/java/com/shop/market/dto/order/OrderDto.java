@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import com.shop.market.Utils.Status;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.OrderItem;
-import com.shop.market.entities.Status;
 
 public record OrderDto(
                         Long id,

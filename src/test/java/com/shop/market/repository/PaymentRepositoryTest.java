@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shop.market.AbstractsIntegrationDBTest;
 import com.shop.market.TestUtil;
+import com.shop.market.Utils.PaymentMethod;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.Payment;
-import com.shop.market.entities.PaymentMethod;
 
 public class PaymentRepositoryTest extends AbstractsIntegrationDBTest{
     ClientRepository clientRepository;

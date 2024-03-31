@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shop.market.AbstractsIntegrationDBTest;
 import com.shop.market.TestUtil;
+import com.shop.market.Utils.Status;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Delivery;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.Product;
-import com.shop.market.entities.Status;
 
 public class DeliveryRepositoryTest extends AbstractsIntegrationDBTest{
     ClientRepository clientRepository;
@@ -121,7 +121,7 @@ public class DeliveryRepositoryTest extends AbstractsIntegrationDBTest{
     void givenAnOrder_whenFindByOrder_thenGetOrderDeliveryData(){
         initDeliveryTest();
         Order order = orderRepository.findAll().get(5);
-        Optional<Delivery> deliveryOptional = deliveryRepository.findByOrder(order);
+        Optional<Delivery> deliveryOptional = deliveryRepository.findByOrderId(order.getId());
         assertThat(deliveryOptional).isNotEmpty();
         Delivery delivery = deliveryOptional.get();
         assertEquals(order.getClient().getAddress(), delivery.getAddress());
@@ -137,10 +137,10 @@ public class DeliveryRepositoryTest extends AbstractsIntegrationDBTest{
     }
 
     @Test
-    void givenAStatus_whenFindByStatus_thenGetDeliveriesWithOrderStatusSpecified(){
+    void givenAStatus_whenFindByOrderStatus_thenGetDeliveriesWithOrderStatusSpecified(){
         initDeliveryTest();
         Status status = Status.DELIVERED;
-        List<Delivery> deliveries = deliveryRepository.findByStatus(status);
+        List<Delivery> deliveries = deliveryRepository.findByOrderStatus(status);
         assertThat(deliveries).isNotEmpty();
         assertThat(deliveries).hasSize(3);
     }

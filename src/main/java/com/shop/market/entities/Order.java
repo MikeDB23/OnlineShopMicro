@@ -3,6 +3,8 @@ package com.shop.market.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.shop.market.Utils.Status;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

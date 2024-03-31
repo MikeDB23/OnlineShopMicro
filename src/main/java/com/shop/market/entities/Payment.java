@@ -2,6 +2,9 @@ package com.shop.market.entities;
 
 import java.time.LocalDateTime;
 
+import com.shop.market.Utils.PaymentMethod;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,7 +36,7 @@ public class Payment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "orderId", unique = true)
     private Order order;
     
     private Double totalPayment;
