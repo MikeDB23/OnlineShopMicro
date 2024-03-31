@@ -121,10 +121,10 @@ public class DeliveryRepositoryTest extends AbstractsIntegrationDBTest{
     void givenAnOrder_whenFindByOrder_thenGetOrderDeliveryData(){
         initDeliveryTest();
         Order order = orderRepository.findAll().get(5);
-        List<Delivery> deliveries = deliveryRepository.findByOrder(order);
-        assertThat(deliveries).isNotEmpty();
-        assertThat(deliveries).hasSize(1);
-        assertEquals(order.getClient().getAddress(),deliveries.get(0).getAddress());
+        Optional<Delivery> deliveryOptional = deliveryRepository.findByOrder(order);
+        assertThat(deliveryOptional).isNotEmpty();
+        Delivery delivery = deliveryOptional.get();
+        assertEquals(order.getClient().getAddress(), delivery.getAddress());
     }
 
     @Test

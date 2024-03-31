@@ -119,10 +119,11 @@ public class PaymentRepositoryTest extends AbstractsIntegrationDBTest{
     @Test
     void givenAnOrderAndPaymentMethod_whenFindByOrderIdAndPaymentMethod_thenGetPaymentByOrdersPaidWithMethodProvided(){
         initPaymentTest();
-        List<Payment> payments = paymentRepository.findByOrderIdAndPaymentMethod(   orderRepository.findAll().get(1).getId(),
-                                                                                    PaymentMethod.PSE);
-        
-        assertThat(payments).isNotEmpty();
-        assertThat(payments).hasSize(1);
+        Order order = orderRepository.findAll().get(1);
+        Optional<Payment> paymentOptional = paymentRepository.findByOrderIdAndPaymentMethod(order.getId(),
+                                                                                            PaymentMethod.PSE);
+        assertThat(paymentOptional).isNotEmpty();
+        Payment payment = paymentOptional.get();
+        assertEquals(payment.getPaymentMethod(), PaymentMethod.PSE);
     }
 }
