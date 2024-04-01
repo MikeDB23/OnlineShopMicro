@@ -3,6 +3,8 @@ package com.shop.market.service.payment;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.shop.market.Utils.PaymentMethod;
 import com.shop.market.dto.payment.PaymentDto;
 import com.shop.market.dto.payment.PaymentMapper;
@@ -12,9 +14,10 @@ import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.PaymentRepository;
 
+@Service
 public class PaymentServiceDto implements PaymentService{
-    PaymentRepository paymentRepository;
-    PaymentMapper paymentMapper;
+    private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
     
     public PaymentServiceDto(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
         this.paymentRepository = paymentRepository;
@@ -61,7 +64,7 @@ public class PaymentServiceDto implements PaymentService{
                     paymentDB.setTotalPayment(paymentToSaveDto.totalPayment());
                     
                     Payment savedPayment = paymentRepository.save(paymentDB);
-                    return paymentMapper.entityToDto(paymentDB);
+                    return paymentMapper.entityToDto(savedPayment);
                 }).orElseThrow(() -> new NotFoundException("Payment not found"));
     }
 

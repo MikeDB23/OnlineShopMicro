@@ -23,7 +23,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

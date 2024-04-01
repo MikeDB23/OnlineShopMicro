@@ -2,19 +2,21 @@ package com.shop.market.service.delivery;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.shop.market.Utils.Status;
 import com.shop.market.dto.delivery.DeliveryDto;
 import com.shop.market.dto.delivery.DeliveryMapper;
 import com.shop.market.dto.delivery.DeliveryToSaveDto;
 import com.shop.market.entities.Delivery;
-import com.shop.market.entities.Order;
 import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.DeliveryRepository;
 
+@Service
 public class DeliveryServiceImpl implements DeliveryService{
-    DeliveryMapper deliveryMapper;
-    DeliveryRepository deliveryRepository;
+    private final DeliveryMapper deliveryMapper;
+    private final DeliveryRepository deliveryRepository;
     
     public DeliveryServiceImpl(DeliveryMapper deliveryMapper, DeliveryRepository deliveryRepository) {
         this.deliveryMapper = deliveryMapper;

@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 
 import com.shop.market.entities.Payment;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PaymentMapper {
     Payment dtoToEntity(PaymentDto paymentDto);
     Payment saveDtoToEntity(PaymentToSaveDto paymentToSaveDto);

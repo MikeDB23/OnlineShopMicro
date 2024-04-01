@@ -1,11 +1,9 @@
 package com.shop.market.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shop.market.AbstractsIntegrationDBTest;
 import com.shop.market.TestUtil;
-import com.shop.market.Utils.PaymentMethod;
 import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
-import com.shop.market.entities.Payment;
 import com.shop.market.entities.Product;
 
 public class OrderItemRepositoryTest extends AbstractsIntegrationDBTest{

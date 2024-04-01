@@ -2,6 +2,8 @@ package com.shop.market.service.product;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.shop.market.dto.product.ProductDto;
 import com.shop.market.dto.product.ProductMapper;
 import com.shop.market.dto.product.ProductToSaveDto;
@@ -10,11 +12,10 @@ import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.ProductRepository;
 
+@Service
 public class ProductServiceImpl implements ProductService{
-    ProductRepository productRepository;
-    ProductMapper productMapper;
-
-    
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;    
 
     public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;

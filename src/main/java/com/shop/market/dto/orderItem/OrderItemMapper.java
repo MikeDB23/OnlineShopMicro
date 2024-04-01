@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 
 import com.shop.market.entities.OrderItem;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface OrderItemMapper {
     OrderItem dtoToEntity(OrderItemDto orderItemDto);
     OrderItem saveDtoToEntity(OrderItemToSaveDto orderItemToSaveDto);

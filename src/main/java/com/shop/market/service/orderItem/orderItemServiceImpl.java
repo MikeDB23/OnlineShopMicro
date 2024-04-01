@@ -2,18 +2,20 @@ package com.shop.market.service.orderItem;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.shop.market.dto.orderItem.OrderItemDto;
 import com.shop.market.dto.orderItem.OrderItemMapper;
 import com.shop.market.dto.orderItem.OrderItemToSaveDto;
 import com.shop.market.entities.OrderItem;
-import com.shop.market.entities.Product;
 import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.OrderItemRepository;
 
+@Service
 public class orderItemServiceImpl implements orderItemService{
-    OrderItemRepository orderItemRepository;
-    OrderItemMapper orderItemMapper;
+    private final OrderItemRepository orderItemRepository;
+    private final OrderItemMapper orderItemMapper;
     public orderItemServiceImpl(OrderItemRepository orderItemRepository, OrderItemMapper orderItemMapper) {
         this.orderItemRepository = orderItemRepository;
         this.orderItemMapper = orderItemMapper;

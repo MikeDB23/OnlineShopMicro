@@ -3,23 +3,25 @@ package com.shop.market.service.order;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.shop.market.Utils.Status;
 import com.shop.market.dto.order.OrderDto;
 import com.shop.market.dto.order.OrderMapper;
 import com.shop.market.dto.order.OrderToSaveDto;
 import com.shop.market.dto.orderItem.OrderItemDto;
 import com.shop.market.dto.orderItem.OrderItemMapper;
-import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
 import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.OrderRepository;
 
+@Service
 public class OrderServiceImpl implements OrderService{
-    OrderRepository orderRepository;
-    OrderMapper orderMapper;
-    OrderItemMapper orderItemMapper;
+    private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
     
     public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, OrderItemMapper orderItemMapper) {
         this.orderRepository = orderRepository;
