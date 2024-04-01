@@ -2,6 +2,8 @@ package com.shop.market.entities;
 
 import java.util.List;
 
+import org.springframework.lang.NonNull;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,8 +30,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NonNull
     private String name;
+    @NonNull
     private Double price;
+    @NonNull
     private Integer stock;
 
     @OneToMany(mappedBy = "product", orphanRemoval = true)
