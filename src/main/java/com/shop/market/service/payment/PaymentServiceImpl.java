@@ -17,12 +17,12 @@ import com.shop.market.repository.OrderRepository;
 import com.shop.market.repository.PaymentRepository;
 
 @Service
-public class PaymentServiceDto implements PaymentService{
+public class PaymentServiceImpl implements PaymentService{
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final OrderRepository orderRepository;
     
-    public PaymentServiceDto(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
+    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
                             OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
