@@ -35,9 +35,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long idProduct){
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id){
         try{
-            ProductDto productDto = productService.findProductById(idProduct);
+            ProductDto productDto = productService.findProductById(id);
             return ResponseEntity.ok().body(productDto);
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
@@ -68,19 +68,19 @@ public class ProductController {
     public ResponseEntity<ProductDto> createNewProduct(@RequestBody ProductToSaveDto productToSaveDto){
         try{
             ProductDto productDto = productService.saveProduct(productToSaveDto);
-            System.out.println(productDto);
             return ResponseEntity.ok().body(productDto);
         }catch (Exception e){
+            System.out.println(e);
             return ResponseEntity.unprocessableEntity().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long idProduct, 
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, 
                                                     @RequestBody ProductToSaveDto productToSaveDto
                                                     ){
         try{
-            ProductDto productDto = productService.updateProduct(idProduct,productToSaveDto);
+            ProductDto productDto = productService.updateProduct(id,productToSaveDto);
             return ResponseEntity.ok().body(productDto);
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
@@ -88,9 +88,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long idProduct){
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id){
         try{
-            productService.deleteProduct(idProduct);
+            productService.deleteProduct(id);
             return ResponseEntity.ok().build();
         }catch (NotAbleToDeleteException e){
             return ResponseEntity.notFound().build();

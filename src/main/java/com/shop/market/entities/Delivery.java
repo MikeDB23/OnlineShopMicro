@@ -1,5 +1,7 @@
 package com.shop.market.entities;
 
+import org.springframework.lang.NonNull;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,11 +30,15 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NonNull
     @ManyToOne
-    @JoinColumn(name = "orderId", unique = true)
+    @JoinColumn(name = "orderId")
     private Order order;
 
+    @NonNull
     private String address;
+    @NonNull
     private String company;
+    @NonNull
     private Integer waybillNumber;
 }

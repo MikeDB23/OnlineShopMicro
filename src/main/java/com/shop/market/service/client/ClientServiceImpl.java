@@ -74,11 +74,10 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public List<ClientDto> findByEmail(String email) {
-        List<Client> clients = clientRepository.findByEmail(email);
-        return clients.stream()
-                .map(client -> clientMapper.entityToDto(client))
-                .toList();
+    public ClientDto findByEmail(String email) {
+        Client client = clientRepository.findByEmail(email)
+                                        .orElseThrow(()-> new NotFoundException("Client not found"));
+        return clientMapper.entityToDto(client);
     }
 
     @Override

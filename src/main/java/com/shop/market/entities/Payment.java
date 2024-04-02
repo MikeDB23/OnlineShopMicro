@@ -2,6 +2,8 @@ package com.shop.market.entities;
 
 import java.time.LocalDateTime;
 
+import org.springframework.lang.NonNull;
+
 import com.shop.market.Utils.PaymentMethod;
 
 import jakarta.persistence.Entity;
@@ -34,12 +36,16 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NonNull
     @ManyToOne
-    @JoinColumn(name = "orderId", unique = true)
+    @JoinColumn(name = "orderId")
     private Order order;
     
+    @NonNull
     private Double totalPayment;
+    @NonNull
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timeOfPayment;
+    
     private PaymentMethod paymentMethod;
 }

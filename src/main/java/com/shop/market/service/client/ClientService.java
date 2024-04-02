@@ -12,7 +12,7 @@ public interface ClientService {
     void deleteClient(Long id);
     List<ClientDto> getAllClients(); 
     
-    List<ClientDto> findByEmail(String email);
+    ClientDto findByEmail(String email);
     List<ClientDto> findByAddress(String address);
     List<ClientDto> findByNameStartingWith(String name);
 }

@@ -9,18 +9,23 @@ import com.shop.market.dto.delivery.DeliveryDto;
 import com.shop.market.dto.delivery.DeliveryMapper;
 import com.shop.market.dto.delivery.DeliveryToSaveDto;
 import com.shop.market.entities.Delivery;
+import com.shop.market.entities.Order;
 import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
 import com.shop.market.repository.DeliveryRepository;
+import com.shop.market.repository.OrderRepository;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService{
     private final DeliveryMapper deliveryMapper;
     private final DeliveryRepository deliveryRepository;
+    private final OrderRepository orderRepository;
     
-    public DeliveryServiceImpl(DeliveryMapper deliveryMapper, DeliveryRepository deliveryRepository) {
+    public DeliveryServiceImpl(DeliveryMapper deliveryMapper, DeliveryRepository deliveryRepository,
+                                OrderRepository orderRepository) {
         this.deliveryMapper = deliveryMapper;
         this.deliveryRepository = deliveryRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -56,9 +61,12 @@ public class DeliveryServiceImpl implements DeliveryService{
     public DeliveryDto updateDelivery(Long id, DeliveryToSaveDto deliveryToSaveDto) {
         return deliveryRepository.findById(id)
                 .map(deliveryDB -> {
+                    Order order = orderRepository.findById(deliveryToSaveDto.order().id())
+                                                 .orElseThrow(() -> new NotFoundException("Ordernot found"));
+
                     deliveryDB.setAddress(deliveryToSaveDto.address());
                     deliveryDB.setCompany(deliveryToSaveDto.company());
-                    deliveryDB.setOrder(deliveryToSaveDto.order());
+                    deliveryDB.setOrder(order);
                     deliveryDB.setWaybillNumber(deliveryToSaveDto.waybillNumber());
                     
                     Delivery savedDelivery = deliveryRepository.save(deliveryDB);

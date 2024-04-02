@@ -2,13 +2,15 @@ package com.shop.market.entities;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
+import org.springframework.lang.NonNull;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "clients", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,9 +32,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NonNull
     private String name;
-    @Column(unique = true)
+    @NonNull
     private String email;
+    @NonNull
     private String address;
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)

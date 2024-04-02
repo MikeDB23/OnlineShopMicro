@@ -89,10 +89,12 @@ public class ClientRepositoryTest extends AbstractsIntegrationDBTest{
     void givenAnEmail_whenFindByEmail_thenGetClientsWithEmail(){
         initClientTest();
         Client client = clientRepository.findAll().get(3);
-        List<Client> clients = clientRepository.findByEmail(client.getEmail());
+        Optional<Client> clientFoundOptional = clientRepository.findByEmail(client.getEmail());
         
-        assertThat(clients).isNotEmpty();
-        assertThat(clients).hasSize(1);
+        assertTrue(clientFoundOptional.isPresent(), "Client not found");
+
+        Client clientFound = clientFoundOptional.get();
+        assertEquals(client, clientFound);
     }
 
     @Test

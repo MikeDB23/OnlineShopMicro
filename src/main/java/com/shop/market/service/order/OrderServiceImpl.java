@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.shop.market.Utils.Status;
+import com.shop.market.dto.client.ClientMapper;
 import com.shop.market.dto.order.OrderDto;
 import com.shop.market.dto.order.OrderMapper;
 import com.shop.market.dto.order.OrderToSaveDto;
 import com.shop.market.dto.orderItem.OrderItemDto;
 import com.shop.market.dto.orderItem.OrderItemMapper;
+import com.shop.market.entities.Client;
 import com.shop.market.entities.Order;
 import com.shop.market.entities.OrderItem;
 import com.shop.market.exceptions.NotAbleToDeleteException;
@@ -22,11 +24,14 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
+    private final ClientMapper clientMapper;
     
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, OrderItemMapper orderItemMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper,
+                            OrderItemMapper orderItemMapper, ClientMapper clientMapper) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.orderItemMapper = orderItemMapper;
+        this.clientMapper = clientMapper;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderDto saveOrder(OrderToSaveDto orderToSaveDto) {
+    public OrderDto saveOrder(OrderToSaveDto orderToSaveDto) {                   
         Order order = orderMapper.saveDtoToEntity(orderToSaveDto);
         Order savedOrder = orderRepository.save(order);
         return orderMapper.entityToDto(savedOrder);
@@ -62,7 +67,8 @@ public class OrderServiceImpl implements OrderService{
     public OrderDto updateOrder(Long id, OrderToSaveDto order) {
         return orderRepository.findById(id)
                 .map(orderDB -> {
-                    orderDB.setClient(order.client());
+                    Client client = clientMapper.dtoToEntity(order.client());
+                    orderDB.setClient(client);
                     orderDB.setStatus(order.status());
                     orderDB.setTimeOfOrder(order.timeOfOrder());
                     

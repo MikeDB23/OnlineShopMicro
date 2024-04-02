@@ -3,6 +3,8 @@ package com.shop.market.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.lang.NonNull;
+
 import com.shop.market.Utils.Status;
 
 import jakarta.persistence.Entity;
@@ -38,10 +40,13 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "clientId")
+    @NonNull
     private Client client;
 
+    @NonNull
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime timeOfOrder;
+    @NonNull
     private Status status;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true)

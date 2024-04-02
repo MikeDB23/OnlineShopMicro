@@ -9,19 +9,24 @@ import com.shop.market.Utils.PaymentMethod;
 import com.shop.market.dto.payment.PaymentDto;
 import com.shop.market.dto.payment.PaymentMapper;
 import com.shop.market.dto.payment.PaymentToSaveDto;
+import com.shop.market.entities.Order;
 import com.shop.market.entities.Payment;
 import com.shop.market.exceptions.NotAbleToDeleteException;
 import com.shop.market.exceptions.NotFoundException;
+import com.shop.market.repository.OrderRepository;
 import com.shop.market.repository.PaymentRepository;
 
 @Service
 public class PaymentServiceDto implements PaymentService{
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final OrderRepository orderRepository;
     
-    public PaymentServiceDto(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    public PaymentServiceDto(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
+                            OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -58,7 +63,9 @@ public class PaymentServiceDto implements PaymentService{
     public PaymentDto updatePayment(Long id, PaymentToSaveDto paymentToSaveDto) {
         return paymentRepository.findById(id)
                 .map(paymentDB -> {
-                    paymentDB.setOrder(paymentToSaveDto.order());
+                    Order order = orderRepository.findById(paymentToSaveDto.order().id())
+                                                    .orElseThrow(() -> new NotFoundException("Payment not found"));
+                    paymentDB.setOrder(order);
                     paymentDB.setPaymentMethod(paymentToSaveDto.paymentMethod());
                     paymentDB.setTimeOfPayment(paymentToSaveDto.timeOfPayment());
                     paymentDB.setTotalPayment(paymentToSaveDto.totalPayment());

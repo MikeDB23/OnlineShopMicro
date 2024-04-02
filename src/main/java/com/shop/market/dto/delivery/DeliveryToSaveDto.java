@@ -1,10 +1,9 @@
 package com.shop.market.dto.delivery;
 
-import com.shop.market.entities.Order;
+import com.shop.market.dto.order.OrderDto;
 
 public record DeliveryToSaveDto(
-                            Long id,
-                            Order order,
+                            OrderDto order,
                             String address,
                             String company,
                             Integer waybillNumber

@@ -5,7 +5,7 @@ import java.util.List;
 import com.shop.market.dto.orderItem.OrderItemDto;
 import com.shop.market.dto.orderItem.OrderItemToSaveDto;
 
-public interface orderItemService {
+public interface OrderItemService {
     OrderItemDto saveOrderItem(OrderItemToSaveDto orderItem);
     OrderItemDto updateOrderItem(Long id, OrderItemToSaveDto orderItemToSaveDto);
     OrderItemDto findOrderItemById(Long id);
