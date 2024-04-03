@@ -58,13 +58,13 @@ public class DeliveryServiceImpTest {
     private DeliveryServiceImpl deliveryService;
 
     List<Client> clients = TestUtil.genClients();
-    ClientDto clientDto = new ClientDto(clients.get(0).getId(), clients.get(0).getName(), clients.get(0).getEmail(), clients.get(0).getAddress());
+    ClientDto clientDto = new ClientDto(1l, clients.get(0).getName(), clients.get(0).getEmail(), clients.get(0).getAddress());
     List<Order> orders = TestUtil.genOrders(clients);
     Order order = orders.get(0);
-    OrderDto orderDto = new OrderDto(order.getId(), clientDto, order.getTimeOfOrder(), order.getStatus());
+    OrderDto orderDto = new OrderDto(1l, clientDto, order.getTimeOfOrder(), order.getStatus());
     List<Delivery> deliveries = TestUtil.genDeliveries(orders);
     Delivery delivery = deliveries.get(0);
-    DeliveryDto deliveryDto = new DeliveryDto(delivery.getId(), orderDto, delivery.getAddress(), delivery.getCompany(), delivery.getWaybillNumber());
+    DeliveryDto deliveryDto = new DeliveryDto(1l, orderDto, delivery.getAddress(), delivery.getCompany(), delivery.getWaybillNumber());
     List<Delivery> answerList = new ArrayList<>();
 
     @BeforeEach
@@ -118,6 +118,7 @@ public class DeliveryServiceImpTest {
         given(deliveryMapper.entityToDto(any())).willReturn(deliveryDto);
         DeliveryDto retuValue = deliveryService.findDeliveryById(delivery.getId());
         assertThat(retuValue).isNotNull();
+        assertThat(retuValue.id()).isEqualTo(1l);
     }
 
     @Test
@@ -137,6 +138,7 @@ public class DeliveryServiceImpTest {
         DeliveryToSaveDto deliveryToSave = new DeliveryToSaveDto(orderDto, delivery.getAddress(), delivery.getCompany(), delivery.getWaybillNumber());
         DeliveryDto retuDto = deliveryService.saveDelivery(deliveryToSave);
         assertThat(retuDto).isNotNull();
+        assertThat(retuDto.id()).isEqualTo(1l);
     }
 
     @Test

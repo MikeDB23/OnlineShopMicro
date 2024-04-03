@@ -120,6 +120,7 @@ public class OrderServiceImplTest {
         given(orderMapper.entityToDto(any())).willReturn(orderDto);
         OrderDto retuValue = orderService.findOrderById(1l);
         assertThat(retuValue).isNotNull();
+        assertThat(retuValue.id()).isEqualTo(1l);
     }
 
     @Test

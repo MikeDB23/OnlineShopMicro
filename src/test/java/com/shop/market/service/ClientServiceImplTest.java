@@ -111,6 +111,7 @@ public class ClientServiceImplTest {
         ClientDto clientDto = clientService.findClientById(id);
 
         assertThat(clientDto).isNotNull();
+        assertThat(clientDto.id()).isEqualTo(1l);
     }
 
     @Test

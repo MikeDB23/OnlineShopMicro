@@ -39,7 +39,7 @@ public class ProductServiceImplTest {
 
     List<Product> products = TestUtil.genProduct();
     Product product = products.get(0);
-    ProductDto productDto = new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getStock());
+    ProductDto productDto = new ProductDto(1l, product.getName(), product.getPrice(), product.getStock());
     List<Product> answerProducts = new ArrayList<>();
 
     @BeforeEach
@@ -90,6 +90,7 @@ public class ProductServiceImplTest {
         given(productMapper.entityToDto(any())).willReturn(productDto);
         ProductDto retuValue = productService.findProductById(1l);
         assertThat(retuValue).isNotNull();
+        assertThat(retuValue.id()).isEqualTo(1l);
     }
 
     @Test
@@ -110,6 +111,7 @@ public class ProductServiceImplTest {
         ProductToSaveDto productToSave = new ProductToSaveDto(product.getName(), product.getPrice(), product.getStock());
         ProductDto retuValue = productService.saveProduct(productToSave);
         assertThat(retuValue).isNotNull();
+        assertThat(retuValue.id()).isEqualTo(1l);
     }
 
     @Test
