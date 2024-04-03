@@ -83,6 +83,7 @@ public class ClientServiceImplTest {
         // Given an email, when find by email, return client
         String emailToSearch = client.getEmail();
         given(clientRepository.findByEmail(emailToSearch)).willReturn(Optional.of(client));
+        given(clientMapper.entityToDto(any())).willReturn(clientDto2);
         ClientDto retuValue = clientService.findByEmail(emailToSearch);
         System.out.println("---------------------");
         System.out.println(emailToSearch);
