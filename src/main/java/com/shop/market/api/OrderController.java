@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +33,14 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<OrderDto>> getOrders(){
+    public ResponseEntity getOrders(){
         try{
             List<OrderDto> ordersDto = orderService.getAllOrders();
             return ResponseEntity.ok().body(ordersDto);
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
     }
     
@@ -73,28 +76,31 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<OrderDto> createNewOrder(@RequestBody OrderToSaveDto orderToSaveDto){
+    public ResponseEntity createNewOrder(@RequestBody OrderToSaveDto orderToSaveDto){
         try{
             OrderDto orderDto = orderService.saveOrder(orderToSaveDto);
             return ResponseEntity.ok().body(orderDto);
         }catch(DataIntegrityViolationException e){
             return ResponseEntity.notFound().build();
         }catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDto> updateOrder(@PathVariable("id") Long id,
+    public ResponseEntity updateOrder(@PathVariable("id") Long id,
                                                  @RequestBody OrderToSaveDto orderToSaveDto){
         try{
             OrderDto orderDto = orderService.updateOrder(id, orderToSaveDto);
             return ResponseEntity.ok().body(orderDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.notFound().build();
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 

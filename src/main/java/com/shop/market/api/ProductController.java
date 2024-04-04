@@ -2,6 +2,7 @@ package com.shop.market.api;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,18 +66,19 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductDto> createNewProduct(@RequestBody ProductToSaveDto productToSaveDto){
+    public ResponseEntity createNewProduct(@RequestBody ProductToSaveDto productToSaveDto){
         try{
             ProductDto productDto = productService.saveProduct(productToSaveDto);
             return ResponseEntity.ok().body(productDto);
         }catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, 
+    public ResponseEntity updateProduct(@PathVariable("id") Long id,
                                                     @RequestBody ProductToSaveDto productToSaveDto
                                                     ){
         try{
@@ -84,6 +86,10 @@ public class ProductController {
             return ResponseEntity.ok().body(productDto);
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 

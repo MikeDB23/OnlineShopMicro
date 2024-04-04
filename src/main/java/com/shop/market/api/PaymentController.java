@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +33,14 @@ public class PaymentController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<PaymentDto>> getPayments(){
+    public ResponseEntity getPayments(){
         try{
             List<PaymentDto> paymentsDto = paymentService.getAllPayments();
             return ResponseEntity.ok().body(paymentsDto);
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
     }
 
@@ -74,25 +77,29 @@ public class PaymentController {
     }
 
     @PostMapping()
-    public ResponseEntity<PaymentDto> createNewPayment(@RequestBody PaymentToSaveDto paymentToSaveDto){
+    public ResponseEntity createNewPayment(@RequestBody PaymentToSaveDto paymentToSaveDto){
         try{
             PaymentDto paymentDto = paymentService.savePayment(paymentToSaveDto);
             return ResponseEntity.ok().body(paymentDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.unprocessableEntity().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDto> updatePayment(@PathVariable("id") Long id,
+    public ResponseEntity updatePayment(@PathVariable("id") Long id,
                                                  @RequestBody PaymentToSaveDto paymentToSaveDto){
         try{
             PaymentDto paymentDto = paymentService.updatePayment(id, paymentToSaveDto);
             return ResponseEntity.ok().body(paymentDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.notFound().build();
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 

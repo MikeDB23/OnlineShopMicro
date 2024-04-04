@@ -2,6 +2,8 @@ package com.shop.market.api;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,23 +67,29 @@ public class ClientController {
     }
 
     @PostMapping()
-    public ResponseEntity<ClientDto> createNewClient(@RequestBody ClientToSaveDto clientToSaveDto){
+    public ResponseEntity createNewClient(@RequestBody ClientToSaveDto clientToSaveDto){
         try{
             ClientDto clientDto = clientService.saveClient(clientToSaveDto);
             return ResponseEntity.ok().body(clientDto);
         }catch (Exception e){
-            return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> updateClient(  @PathVariable("id") long id,
+    public ResponseEntity updateClient(  @PathVariable("id") long id,
                                                     @RequestBody ClientToSaveDto clientToSaveDto){
         try{
             ClientDto clientDto = clientService.updateClient(id,clientToSaveDto);
             return ResponseEntity.ok().body(clientDto);
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 

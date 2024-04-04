@@ -3,6 +3,7 @@ package com.shop.market.api;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +31,14 @@ public class DeliveryController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<DeliveryDto>> getDeliveries(){
+    public ResponseEntity getDeliveries(){
         try{
             List<DeliveryDto> deliveriesDto = deliveryService.getAllDeliveries();
             return ResponseEntity.ok().body(deliveriesDto);
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
     }
 
@@ -70,23 +73,27 @@ public class DeliveryController {
     }
 
     @PostMapping()
-    public ResponseEntity<DeliveryDto> createNewDelivery(@RequestBody DeliveryToSaveDto deliveryToSaveDto){
+    public ResponseEntity createNewDelivery(@RequestBody DeliveryToSaveDto deliveryToSaveDto){
         try{
             DeliveryDto deliveryDto = deliveryService.saveDelivery(deliveryToSaveDto);
             return ResponseEntity.ok().body(deliveryDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.unprocessableEntity().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DeliveryDto> updateDelivery(@PathVariable("id") Long id,
+    public ResponseEntity updateDelivery(@PathVariable("id") Long id,
                                                     @RequestBody DeliveryToSaveDto deliveryToSaveDto){
         try{
             DeliveryDto deliveryDto = deliveryService.updateDelivery(id, deliveryToSaveDto);
             return ResponseEntity.ok().body(deliveryDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.unprocessableEntity().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 

@@ -3,6 +3,7 @@ package com.shop.market.api;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +30,14 @@ public class OrderItemController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<OrderItemDto>> getOrdersItems(){
+    public ResponseEntity getOrdersItems(){
         try{
             List<OrderItemDto> ordersItemsDto = orderItemService.getAllOrderItems();
             return ResponseEntity.ok().body(ordersItemsDto);
         }catch (Exception e){
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
         }
     }
 
@@ -61,27 +64,29 @@ public class OrderItemController {
     }
     
     @PostMapping()
-    public ResponseEntity<OrderItemDto> createNewOrderItem(@RequestBody OrderItemToSaveDto orderItemToSaveDto){
+    public ResponseEntity createNewOrderItem(@RequestBody OrderItemToSaveDto orderItemToSaveDto){
         try{
             OrderItemDto orderItemDto = orderItemService.saveOrderItem(orderItemToSaveDto);
             return ResponseEntity.ok().body(orderItemDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.notFound().build();
         }catch (Exception e){
-            return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderItemDto> updateOrderItem(@PathVariable("id") Long id,
+    public ResponseEntity updateOrderItem(@PathVariable("id") Long id,
                                                  @RequestBody OrderItemToSaveDto orderItemToSaveDto){
         try{
             OrderItemDto orderItemDto = orderItemService.updateOrderItem(id, orderItemToSaveDto);
             return ResponseEntity.ok().body(orderItemDto);
-        }catch(DataIntegrityViolationException e){
-            return ResponseEntity.notFound().build();
         }catch (NotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(e.getMessage());
         }
     }
 
