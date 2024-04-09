@@ -5,6 +5,7 @@ import com.shop.market.dto.client.ClientDto;
 import com.shop.market.dto.product.ProductDto;
 import com.shop.market.dto.product.ProductToSaveDto;
 import com.shop.market.entities.Client;
+import com.shop.market.entities.Product;
 import com.shop.market.service.product.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,15 +40,15 @@ class ProductControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    private Client client;
-    private ClientDto clientDto;
+    private Product product;
+    private ProductDto productDto;
 
-    ProductDto productDto = new ProductDto(Long.valueOf(1L), "Mondongo", 6900.00, 15);
+    ProductDto testProduct = new ProductDto(Long.valueOf(1L), "Mondongo", 6900.00, 15);
     ProductToSaveDto productToSaveDto = new ProductToSaveDto("Mondongo", 6900.00, 15);
 
     @Test
     void getProducts() throws Exception{
-        List<ProductDto> productDtoList = List.of(productDto, new ProductDto(Long.valueOf(2L), "Yuca", 8000.00, 6));
+        List<ProductDto> productDtoList = List.of(testProduct, new ProductDto(Long.valueOf(2L), "Yuca", 8000.00, 6));
         given(productService.getAllProducts()).willReturn(productDtoList);
         mockMvc.perform(get("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -59,7 +60,7 @@ class ProductControllerTest {
 
     @Test
     void getProductById() throws Exception{
-        given(productService.findProductById(productDto.id())).willReturn(productDto);
+        given(productService.findProductById(testProduct.id())).willReturn(testProduct);
         mockMvc.perform(get("/api/v1/products/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -68,7 +69,7 @@ class ProductControllerTest {
 
     @Test
     void getProductBySearchParam() throws Exception {
-        given(productService.findByNameLike(any())).willReturn(List.of(productDto));
+        given(productService.findByNameLike(any())).willReturn(List.of(testProduct));
         mockMvc.perform(get("/api/v1/products/search")
                 .contentType(MediaType.APPLICATION_JSON)
                         .param("searchTerm", "Mon"))
@@ -79,7 +80,7 @@ class ProductControllerTest {
 
     @Test
     void getProductInStock() throws Exception{
-        given(productService.findByStockGreaterThanZero()).willReturn(List.of(productDto));
+        given(productService.findByStockGreaterThanZero()).willReturn(List.of(testProduct));
         mockMvc.perform(get("/api/v1/products/instock")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -89,7 +90,7 @@ class ProductControllerTest {
 
     @Test
     void createNewProduct() throws Exception{
-        given(productService.saveProduct(productToSaveDto)).willReturn(productDto);
+        given(productService.saveProduct(productToSaveDto)).willReturn(testProduct);
         String json = new ObjectMapper().writeValueAsString(productToSaveDto);
         mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +100,7 @@ class ProductControllerTest {
 
     @Test
     void updateProduct() throws Exception{
-        given(productService.updateProduct(productDto.id(), productToSaveDto)).willReturn(productDto);
+        given(productService.updateProduct(testProduct.id(), productToSaveDto)).willReturn(testProduct);
         String json = new ObjectMapper().writeValueAsString(productToSaveDto);
         mockMvc.perform(put("/api/v1/products/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -110,7 +111,7 @@ class ProductControllerTest {
 
     @Test
     void deleteProduct() throws Exception{
-        willDoNothing().given(productService).deleteProduct(productDto.id());
+        willDoNothing().given(productService).deleteProduct(testProduct.id());
         mockMvc.perform(delete("/api/v1/products/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
